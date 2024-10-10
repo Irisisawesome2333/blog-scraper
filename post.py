@@ -1,11 +1,11 @@
 class Post:
+    # TODO: add docstring description for the class
     id = None
     url = None
     title = None
     body = None
 
     def __init__(self, id: str, url: str) -> None:
-        # TODO: initializes member fields for the post.
         self.id = id
         self.url = url
 
