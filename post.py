@@ -1,12 +1,14 @@
 class Post:
-    def __init__(self) -> None:
-        # TODO: initializes member fields for the post. A good place to use the builder pattern.
-        pass
+    def __init__(self, id, title, body) -> None:
+        # TODO: initializes member fields for the post.
+        self.id = id
+        self.title = title
+        self.body = body
 
     def dict(self) -> dict:
         """Returns a dictionary which contains attributes of the post."""
-        # TODO: replace the following fake data
         return {
-            'id': '3858',
-            'title': 'A Review of Burt: The Airport Cat Book',
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
         }

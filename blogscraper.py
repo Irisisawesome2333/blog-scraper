@@ -27,7 +27,7 @@ def get_html(url:str) -> str:
 def main():
     html_doc = get_html(args.url)
     soup = bs4.BeautifulSoup(html_doc, 'html.parser')
-    posts = scrape.extract_posts(soup)
+    posts = scrape.extract_posts_thejoyofcats(soup)
     data = [post.dict() for post in posts]
 
     with open(args.output_file, 'w') as f:
