@@ -38,13 +38,16 @@ def scrape_posts(posts: list[post.Post]) -> None:
         post_soup = bs4.BeautifulSoup(post_html_doc, 'html.parser')
         scrape.scrape_post_thejoyofcats(post, post_soup)
 
+def dump_posts(posts: list[post.Post], output_file: pathlib.Path) -> None:
+    """Writes posts data to the given output file in JSON format."""
+    data = [post.dict() for post in posts]
+    with open(output_file, 'w') as f:
+        json.dump(data, f)
+
 def main():
     posts = extract_posts(args.url)
     scrape_posts(posts)
-
-    data = [post.dict() for post in posts]
-    with open(args.output_file, 'w') as f:
-        json.dump(data, f)
+    dump_posts(posts, args.output_file)
 
     return 0
 
