@@ -1,5 +1,29 @@
 import post
 import bs4
+import utils
+
+def extract_posts(url: str) -> list[post.Post]:
+    """Returns a list of post.Post containing basic information (id, url) of all posts
+        found in the provided URL. Only thejoyofcats posts are supported.
+
+    Keyword arguments:
+        url -- URL to the page containing a list of available posts.
+    """
+    html_doc = utils.get_html(url)
+    soup = bs4.BeautifulSoup(html_doc, 'html.parser')
+    posts = extracts_posts_thejoyofcats(soup)
+    return posts
+
+def scrape_posts(posts: list[post.Post]) -> None:
+    """Get and scrapes the content for the given posts. Only thejoyofcats posts are supported.
+
+    Keyword arguments:
+        posts -- a list of post.Post objects each initialized with a URL value.
+    """
+    for post in posts:
+        post_html_doc = utils.get_html(post.get_url())
+        post_soup = bs4.BeautifulSoup(post_html_doc, 'html.parser')
+        scrape_post_thejoyofcats(post, post_soup)
 
 def extracts_posts_thejoyofcats(soup: bs4.BeautifulSoup) -> list[post.Post]:
     """Returns a list of post.Post objects extracted from the provided BeautifulSoup

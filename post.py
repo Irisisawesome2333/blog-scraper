@@ -1,13 +1,21 @@
 class Post:
     # TODO: add docstring description for the class
-    id = None
-    url = None
-    title = None
-    body = None
-
-    def __init__(self, id: str, url: str) -> None:
+    def __init__(self,
+                id: str = None,
+                url: str = None,
+                title: str = None,
+                body: str = None,
+    ) -> None:
         self.id = id
         self.url = url
+        self.title = title
+        self.body = body
+
+    def __eq__(self, other: object) -> bool:
+        return self.id == other.id and \
+            self.url == other.url and \
+            self.title == other.title and \
+            self.body == other.body
 
     def dict(self) -> dict:
         """Returns a dictionary which contains attributes of the post."""
