@@ -21,8 +21,8 @@ class Post:
         """Returns a dictionary which contains attributes of the post."""
         return {
             'id': self.id,
-            'title': self.title,
             'url': self.url,
+            'title': self.title,
             'body': self.body,
         }
 
