@@ -3,7 +3,7 @@ import pathlib
 import argparse
 import scrape
 import json
-import post
+from post import Post
 
 parser = argparse.ArgumentParser(
                     prog='BlogScraper',
@@ -13,7 +13,7 @@ parser.add_argument('--output-file', type=pathlib.Path, required=True)
 
 args = parser.parse_args()
 
-def dump_posts(posts: list[post.Post], output_file: pathlib.Path) -> None:
+def dump_posts(posts: list[Post], output_file: pathlib.Path) -> None:
     """Writes posts data to the given output file in JSON format."""
     data = [post.dict() for post in posts]
     with open(output_file, 'w') as f:

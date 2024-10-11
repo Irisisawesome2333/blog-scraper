@@ -1,11 +1,11 @@
-import post
 import bs4
 import utils
+from post import Post
 
 MEDIA_TAGS = ['audio', 'embed', 'iframe', 'img', 'input', 'script', 'source', 'track', 'video']
 
-def extract_posts(url: str) -> list[post.Post]:
-    """Returns a list of post.Post containing basic information (id, url) of all posts
+def extract_posts(url: str) -> list[Post]:
+    """Returns a list of Post containing basic information (id, url) of all posts
     found in the provided URL. Only thejoyofcats posts are supported.
 
     Keyword arguments:
@@ -16,19 +16,19 @@ def extract_posts(url: str) -> list[post.Post]:
     posts = extracts_posts_thejoyofcats(soup)
     return posts
 
-def scrape_posts(posts: list[post.Post]) -> None:
+def scrape_posts(posts: list[Post]) -> None:
     """Get and scrapes the content for the given posts. Only thejoyofcats posts are supported.
 
     Keyword arguments:
-    posts -- a list of post.Post objects each initialized with a URL value.
+    posts -- a list of Post objects each initialized with a URL value.
     """
     for post in posts:
         post_html_doc = utils.get_html(post.get_url())
         post_soup = bs4.BeautifulSoup(post_html_doc, 'html.parser')
         scrape_post_thejoyofcats(post, post_soup)
 
-def extracts_posts_thejoyofcats(soup: bs4.BeautifulSoup) -> list[post.Post]:
-    """Returns a list of post.Post objects extracted from the provided BeautifulSoup
+def extracts_posts_thejoyofcats(soup: bs4.BeautifulSoup) -> list[Post]:
+    """Returns a list of Post objects extracted from the provided BeautifulSoup
     instance representing a thejoyofcats HTML document.
 
     Keyword arguments:
@@ -42,16 +42,16 @@ def extracts_posts_thejoyofcats(soup: bs4.BeautifulSoup) -> list[post.Post]:
         id = article.attrs['id'].replace('post-', '')
         url = title_a.attrs['href']
 
-        posts.append(post.Post(id=id, url=url))
+        posts.append(Post(id=id, url=url))
 
     return posts
 
-def scrape_post_thejoyofcats(post: post.Post, soup: bs4.BeautifulSoup) -> None:
+def scrape_post_thejoyofcats(post: Post, soup: bs4.BeautifulSoup) -> None:
     """Scrapes post information from the provided HTML content and sets the information
     for the provided post object.
 
     Keyword arguments:
-    post -- a post.Post instance initialized with a post URL.
+    post -- a Post instance initialized with a post URL.
     soup -- a BeautifulSoup instance containing the HTML content of a https://thejoyofcats.com post.
     """
     article = soup.find(id='main').find('article')
@@ -66,7 +66,14 @@ def scrape_post_thejoyofcats(post: post.Post, soup: bs4.BeautifulSoup) -> None:
     post.set_author(author)
     scrape_post_media_thejoyofcats(post, soup)
 
-def scrape_post_media_thejoyofcats(post: post.Post, soup: bs4.BeautifulSoup) -> None:
+def scrape_post_media_thejoyofcats(post: Post, soup: bs4.BeautifulSoup) -> None:
+    """Scrapes medial urls from the provided HTML content and sets media urls information for 
+    the provided post object.
+
+    Keyword arguments:
+    post -- a Post instance initialized with a post URL.
+    soup -- a BeautifulSoup instance containing the HTML content of a https://thejoyofcats.com post.
+    """
     media_urls = []
     article = soup.find(id='main').find('article')
 

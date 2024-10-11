@@ -1,17 +1,17 @@
 import unittest
-import post
+from post import Post
 
 class PostTest(unittest.TestCase):
     def test_get_url(self):
-        post_1 = post.Post(id="1", url='https://post-1.com')
+        post = Post(id="1", url='https://post-1.com')
 
         expected = 'https://post-1.com'
-        got = post_1.get_url()
+        got = post.get_url()
 
         self.assertEqual(got, expected)
 
     def test_dict(self):
-        post_1 = post.Post(id="1", url='https://post-1.com')
+        post = Post(id="1", url='https://post-1.com')
 
         expected = {
             'id': '1',
@@ -22,39 +22,39 @@ class PostTest(unittest.TestCase):
             'author': None,
             'media_urls': None,
         }
-        got = post_1.dict()
+        got = post.dict()
 
         self.assertEqual(got, expected)
 
     def test_eq(self):
         self.assertEqual(
-            post.Post(
+            Post(
                 id="1",
                 url='https://post-1.com',
                 title='post-1',
                 body='post-1-body',
                 date='2023-12-01T09:12:24-05:00',
-                author='Bob',
+                author='author name',
                 media_urls=['https://test.jpg'],
             ),
-            post.Post(
+            Post(
                 id="1",
                 url='https://post-1.com',
                 title='post-1',
                 body='post-1-body',
                 date='2023-12-01T09:12:24-05:00',
-                author='Bob',
+                author='author name',
                 media_urls=['https://test.jpg'],
             )
         )
         self.assertNotEqual(
-            post.Post(
+            Post(
                 id="1",
                 url='https://post-1.com',
                 title='post-1',
                 body='post-1-body',
             ),
-            post.Post(
+            Post(
                 id="2",
                 url='https://post-2.com',
             )
