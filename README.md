@@ -14,3 +14,8 @@ pip install -r requirements.txt
 
 ### Execute program
 WIP
+
+### Run unit tests
+```bash
+python -m unittest discover -p "*_test.py"
+```

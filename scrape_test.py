@@ -41,6 +41,8 @@ class PostTest(unittest.TestCase):
                             <h1>post-1 title</h1>
                         </header>
                         <div class='entry-content'>post-1 body</div>
+                        <time class='entry-date published' datetime='2024-10-11'>2024-10-11</time>
+                        <span class='author-name'>author name</span>
                     </article>
                 </main>
                 </body>
@@ -50,7 +52,7 @@ class PostTest(unittest.TestCase):
 
         scrape.scrape_post_thejoyofcats(post_1, soup)
 
-        expected_post = post.Post(id='1', url='https://post-1', title='post-1 title', body='post-1 body')
+        expected_post = post.Post(id='1', url='https://post-1', title='post-1 title', body='post-1 body', date='2024-10-11', author='author name', media_urls=[])
         self.assertEqual(post_1, expected_post)
 
     @patch('utils.get_html')
@@ -86,7 +88,7 @@ class PostTest(unittest.TestCase):
     def test_scrape_posts(self, get_html_mock):
         posts = [post.Post(id='1', url='https://post-1'), post.Post(id='2', url='https://post-2')]
         get_html_mock.side_effect = ['''
-                <!DOCTYPE html>
+               <!DOCTYPE html>
                 <html>
                 <body>
                 <main id='main'>
@@ -95,12 +97,14 @@ class PostTest(unittest.TestCase):
                             <h1>post-1 title</h1>
                         </header>
                         <div class='entry-content'>post-1 body</div>
+                        <time class='entry-date published' datetime='2024-10-11'>2024-10-11</time>
+                        <span class='author-name'>author name</span>
                     </article>
                 </main>
                 </body>
                 </html>
                 ''', '''
-                 <!DOCTYPE html>
+                <!DOCTYPE html>
                 <html>
                 <body>
                 <main id='main'>
@@ -109,6 +113,8 @@ class PostTest(unittest.TestCase):
                             <h1>post-2 title</h1>
                         </header>
                         <div class='entry-content'>post-2 body</div>
+                        <time class='entry-date published' datetime='2024-10-11'>2024-10-11</time>
+                        <span class='author-name'>author name</span>
                     </article>
                 </main>
                 </body>
@@ -116,8 +122,8 @@ class PostTest(unittest.TestCase):
                 ''']
         
         scrape.scrape_posts(posts)
-        expected_posts = [post.Post(id='1', url='https://post-1', title='post-1 title', body='post-1 body'),
-                         post.Post(id='2', url='https://post-2', title='post-2 title', body='post-2 body')]
+        expected_posts = [post.Post(id='1', url='https://post-1', title='post-1 title', body='post-1 body', date='2024-10-11', author='author name', media_urls=[]),
+                         post.Post(id='2', url='https://post-2', title='post-2 title', body='post-2 body', date='2024-10-11', author='author name', media_urls=[])]
         
         self.assertListEqual(posts, expected_posts)  
 
