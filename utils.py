@@ -1,4 +1,7 @@
+import json
 import requests
+import pathlib
+from post import Post
 
 RETRYABLE_STATUSES = [408, 502, 503, 504]
 
@@ -20,3 +23,9 @@ def get_html(url: str) -> str:
         url=url,
         message=message,
     ))
+
+def dump_posts(posts: list[Post], output_file: pathlib.Path) -> None:
+    """Writes posts data to the given output file in JSON format."""
+    data = [post.dict() for post in posts]
+    with open(output_file, 'w') as f:
+        json.dump(data, f)
