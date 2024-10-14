@@ -79,8 +79,9 @@ python -m unittest discover -p "*_test.py"
 
 At this time, the program only support scraping blog posts from thejoyofcats. There is no plan on supporting other blog platforms. That being said, transforming the program to support a different website should be easy and involves roughly the following steps:
 
-1. Implement `extracts_posts_<website>` and `scrape_post_.*<website>` functions in `scrape.py`.
-1. Call the implemented functions from the program's entry `blogscraper.py`.
+1. Implement `extracts_posts_<website>` and `scrape_post_<website>` functions in `scrape.py`.
+1. Call the newly implemented functions in the `extract_posts` and `scrape_posts` functions.
+1. (Optional) use command line arguments to decide which website to scrape.
 
 
 ## Tradeoffs
