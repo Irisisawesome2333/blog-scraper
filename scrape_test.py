@@ -69,8 +69,8 @@ class PostTest(unittest.TestCase):
         <div class='entry-content'>post-2 body</div>
         <time class='entry-date published' datetime='2023-12-01T09:12:24-05:00'>Dec 2023</time>
         <span class='author-name'>author name</span>
-        <img src="https://test.jpg"></img>
-        <video src="https://test.mp4"></video> 
+        <img src="https://test-img1.jpg"></img>
+        <img src="https://test-img2.jpg"></img>
     </article>
 </main>
 </body>
@@ -83,7 +83,7 @@ class PostTest(unittest.TestCase):
             Post(id='1', url='https://post-1', title='post-1 title', body='post-1 body', 
                 date='2023-12-01T09:12:24-05:00', author='author name', media_urls=[]),
             Post(id='2', url='https://post-2', title='post-2 title', body='post-2 body', 
-                date='2023-12-01T09:12:24-05:00', author='author name', media_urls=["https://test.jpg", "https://test.mp4"])
+                date='2023-12-01T09:12:24-05:00', author='author name', media_urls=["https://test-img1.jpg", "https://test-img2.jpg"])
         ]
         posts = [Post(id='1', url='https://post-1'), Post(id='2', url='https://post-2')]
         scrape.scrape_posts(posts)

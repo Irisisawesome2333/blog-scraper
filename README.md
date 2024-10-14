@@ -10,7 +10,7 @@ The output of the program contains the following attributes for each post it scr
 - `body`: Post body
 - `date`: Post date
 - `author`: Post author
-- `media_urls`: A list of media URLs for any media in the post body
+- `media_urls`: A list of media URLs for any image in the post body
 
 ## Requirements
 
@@ -28,7 +28,7 @@ cd <project_directory>
 
 ### Set up virtual environment (optional but recommended)
 
-It is recommanded to use an [virtual environment](https://python.land/virtual-environments/virtualenv) to isolate packages from the global environment.
+It is recommended to use a [virtual environment](https://python.land/virtual-environments/virtualenv) to isolate packages from the global environment.
 
 ```bash
 python -m venv .venv
@@ -40,7 +40,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Scrape thejoyofcats's first page
+### Scrape the first page of thejoyofcats
 
 Run the following commands to scrape the first page of http://thejoyofcats.com and save the output to `/tmp/out.json`.
 
@@ -77,7 +77,7 @@ python -m unittest discover -p "*_test.py"
 
 ## Support other websites
 
-At this time, the program only support scraping blog posts from thejoyofcats. There is no plan on supporting other blog platforms. That being said, transforming the program to support a different website should be easy and involves roughly the following steps:
+At this time, the program only supports scraping blog posts from thejoyofcats. There is no plan to support other blog platforms. That being said, transforming the program to support a different website should be easy and involves roughly the following steps:
 
 1. Implement `extracts_posts_<website>` and `scrape_post_<website>` functions in `scrape.py`.
 1. Call the newly implemented functions in the `extract_posts` and `scrape_posts` functions.
@@ -90,18 +90,18 @@ The following tradeoffs were made while desiging this program.
 
 ### HTTP error handling
 
-It is possible for the program to see transient HTTP errors while making frequent requests to a Website. In some cases, these errors are retryable. This means even though one request failed, but a subsequent one made at a later time may succeed.
+It is possible for the program to encounter transient HTTP errors while making frequent requests to a Website. In some cases, these errors are retryable, meaning that even though one request fails, a subsequent one made at a later time may succeed.
 
 || Simple handling (adpoted)    | Automatic retry |
 |---| -------- | ------- |
-| Description | Exits when unexpected HTTP status code is received. If an error is potentially retriable, print a message to tell the user to retry. |  The program automatically retry an HTTP request on potential retryable errors with exponetial backoff.   |
-| Pros | Easy to implement; Behaviour is predictable. |  More robust; User-friendly.    |
-| Cons | Kiiling the program only takes one error.   |  Higher complexity. Potential unnecessary delay with exponential backoff. |
+| Description | Exits when an unexpected HTTP status code is received. If an error is potentially retriable, a message is printed to inform the user to retry. |  The program automatically retries an HTTP request on potential retriable errors with exponential backoff.   |
+| Pros | Easy to implement; behaviour is predictable. |  More robust; User-friendly.    |
+| Cons | One error can terminate the program.   |  Higher complexity. Potential unnecessary delay with exponential backoff. |
 
-The simple error handling design is adoped since the implementation is much easier. http://thejoyofcats.com is a fairly stable website. The additional benefits of a more complex implementation is likely insignificant.
+The simple error-handling design is adoped since the implementation is much easier. http://thejoyofcats.com is a fairly stable website, and the additional benefits of a more complex implementation are likely insignificant.
 
 ### Throttling
 
-To be responsible and not abuse the website being scraped, the frequency of the requests sent by scraper should be in a acceptable range. In some cases, the scraper may get throttled (or banned) by a Web server if large volume of requests were made within a short period of time. This can be avoided by implementing a throttling mechanism to limit the request frequency.
+To avoid abusing the website being scraped, the frequency of the requests sent by the scraper should be within an acceptable range. In some cases, the scraper may get throttled (or banned) by a Web server if a large volume of requests is made in a short period of time. This can be mitigated by implementing a throttling mechanism to limit request frequency.
 
-Given that each thejoyofcats page contains ~10 blog posts, a throttling mechenism maybe an overkill. However, it is something to consider when the program is expected to scrape more posts.
+Given that each blog page of thejoyofcats contains around 10 blog posts, a throttling mechanism may be overkill. However, it is something to consider if the program is expected to scrape more posts in the future.

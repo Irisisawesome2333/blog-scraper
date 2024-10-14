@@ -2,7 +2,7 @@ import bs4
 import utils
 from post import Post
 
-MEDIA_TAGS = ['audio', 'embed', 'iframe', 'img', 'input', 'script', 'source', 'track', 'video']
+MEDIA_TAGS = ['img']
 
 def extract_posts(url: str) -> list[Post]:
     """Returns a list of Post containing basic information (id, url) of all posts
