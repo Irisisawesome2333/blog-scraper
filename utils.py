@@ -1,7 +1,9 @@
 import json
 import requests
 import pathlib
+import argparse
 from post import Post
+from urllib.parse import urlparse
 
 RETRYABLE_STATUSES = [408, 502, 503, 504]
 
@@ -29,3 +31,11 @@ def dump_posts(posts: list[Post], output_file: pathlib.Path) -> None:
     data = [post.dict() for post in posts]
     with open(output_file, 'w') as f:
         json.dump(data, f)
+
+def my_url_type(url: str) -> str:
+    parsed_url = urlparse(url)
+    if parsed_url.scheme not in ['http', 'https']:
+        raise argparse.ArgumentTypeError(f"invalid URL scheme: {parsed_url.scheme}")
+    if parsed_url.netloc != 'thejoyofcats.com':
+        raise argparse.ArgumentTypeError(f"unsupported URL: {parsed_url.netloc}")
+    return url

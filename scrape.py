@@ -82,5 +82,5 @@ def scrape_post_media_thejoyofcats(post: Post, soup: bs4.BeautifulSoup) -> None:
             src = element.get('src')
             if src:
                 media_urls.append(src)
-    
+
     post.set_media_urls(media_urls)
